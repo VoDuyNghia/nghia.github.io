@@ -26,13 +26,25 @@
             top: 50%;
             transform: translate(-50%, -50%);
         }
+		.date {
+			font-weight: bold;
+			color: black;
+			font-size: 20px;
+		}
+		
+		.point {
+			font-weight: bold;
+			font-size: 20px;
+			color: black;
+			margin-top: 15px;
+		}
     </style>
 </head>
 
 <body>
     <script>
         $(document).ready(function () {
-            fetch('https://hapi.stunited.vn/app_dev.php/api/settings/css_event')
+            fetch('https://api.hapie.stunited.vn/app_dev.php/api/settings/css_event')
                 .then((res) => { return res.json() })
                 .then((data) => {
                     var resultData = '';
@@ -51,16 +63,22 @@
                                             <h2>${data[key]['name']}</h2>
                                             <blockquote>
                                                 <p>${data[key]['description']}</p>
-                                                <cite>Start At : ${moment(data[key]['startAt']).format('LLL')}</cite>
-                                                <cite>End At : ${moment(data[key]['endAt']).format('LLL')}</cite>
-                                                <cite>Point : ${data[key]['pointsAmount']}</cite>
+                                                <cite class="date">Start At : ${moment(data[key]['startAt']).format('LLL')}</cite>
+                                                <cite class="date">End At : ${moment(data[key]['endAt']).format('LLL')}</cite>
+                                                <cite class="point">Point : ${data[key]['pointsAmount']}</cite>
                                             </blockquote>
                                         </div>
                                     </div>
                             `;
+							
+							resultNav += `
+								<span ${key == 0 ? 'class="nav-dot-current"' : ''}"></span>
+							`;
                         }
                     }
+					
                     $('#tab-content').append(resultData);
+					$('#nav-dots').append(resultNav);
                     InitSlider();
                 })
         })
@@ -76,9 +94,6 @@
             </nav>
 
             <nav id="nav-dots" class="nav-dots">
-                <span class="nav-dot-current"></span>
-                <span></span>
-                <span></span>
             </nav>
         </div>
     </div>
